@@ -1,0 +1,26 @@
+{
+  "name": "my-saas-platform",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n app,backend -c cyan,magenta \"npm -w @my-saas/app run dev\" \"npm -w @my-saas/backend run start:dev\"",
+    "dev:app": "npm -w @my-saas/app run dev",
+    "dev:backend": "npm -w @my-saas/backend run start:dev",
+    "build": "npm -w @my-saas/app run build && npm -w @my-saas/backend run build",
+    "build:all": "npm --workspaces run build",
+    "lint": "npm --workspaces run lint",
+    "format": "prettier -w .",
+    "format:check": "prettier -c .",
+    "test": "npm -w @my-saas/backend run test",
+    "ci": "npm run lint && npm run build && npm run test"
+  },
+  "devDependencies": {
+    "concurrently": "^9",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10",
+    "eslint-plugin-prettier": "^5",
+    "prettier": "^3"
+  }
+}

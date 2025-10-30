@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint app
+        run: npm -w @my-saas/app run lint
+
+      - name: Lint backend
+        run: npm -w @my-saas/backend run lint
+
+      - name: Build app
+        run: npm -w @my-saas/app run build
+
+      - name: Build backend
+        run: npm -w @my-saas/backend run build
+
+      - name: Test backend
+        run: npm -w @my-saas/backend run test -- --ci --reporters=default --reporters=jest-junit
