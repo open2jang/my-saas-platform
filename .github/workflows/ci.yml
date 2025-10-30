@@ -23,16 +23,16 @@ jobs:
         run: npm ci
 
       - name: Lint app
-        run: npm --workspace packages/app run lint
+        run: npm --prefix packages/app run lint
 
       - name: Lint backend
-        run: npm --workspace packages/backend run lint
+        run: npm --prefix packages/backend run lint
 
       - name: Build app
-        run: npm --workspace packages/app run build
+        run: npm --prefix packages/app run build
 
       - name: Build backend
-        run: npm --workspace packages/backend run build
+        run: npm --prefix packages/backend run build
 
       - name: Test backend
-        run: npm --workspace packages/backend run test -- --ci --reporters=default --reporters=jest-junit
+        run: npm --prefix packages/backend run test -- --ci --reporters=default --reporters=jest-junit
