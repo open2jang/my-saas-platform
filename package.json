@@ -8,13 +8,13 @@
     "dev": "concurrently -n app,backend -c cyan,magenta \"npm -w @my-saas/app run dev\" \"npm -w @my-saas/backend run start:dev\"",
     "dev:app": "npm -w @my-saas/app run dev",
     "dev:backend": "npm -w @my-saas/backend run start:dev",
-    "build": "npm -w @my-saas/app run build && npm -w @my-saas/backend run build",
-    "build:all": "npm --workspaces run build",
-    "lint": "npm --workspaces run lint",
+    "build": "npm --prefix packages/app run build && npm --prefix packages/backend run build",
+    "build:all": "npm --prefix packages/app run build && npm --prefix packages/backend run build",
+    "lint:all": "(cd packages/app && npm run lint) && (cd packages/backend && npm run lint)",
     "format": "prettier -w .",
     "format:check": "prettier -c .",
-    "test": "npm -w @my-saas/backend run test",
-    "ci": "npm run lint && npm run build && npm run test"
+    "test": "npm --prefix packages/backend run test",
+    "ci": "npm run lint:all && npm run build && npm run test"
   },
   "devDependencies": {
     "concurrently": "^9",

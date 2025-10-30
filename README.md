@@ -29,7 +29,7 @@ Monorepo with:
 
 ## Scripts (root)
 
-- Lint all: `npm run lint`
+- Lint all: `npm run lint:all`
 - Build all: `npm run build:all`
 - Format write: `npm run format`
 - Format check: `npm run format:check`

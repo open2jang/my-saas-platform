@@ -3,6 +3,6 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-npm run ci
+npm run lint:all && npm run build && npm run test
 
 

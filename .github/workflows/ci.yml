@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop, feature/**]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
   build-and-test:
@@ -20,19 +20,30 @@ jobs:
           cache: 'npm'
 
       - name: Install
-        run: npm ci
+        run: npm install
 
       - name: Lint app
-        run: npm --workspace packages/app run lint
+        run: |
+          pwd
+          ls -la
+          npm run lint
+        working-directory: packages/app
 
       - name: Lint backend
-        run: npm --workspace packages/backend run lint
+        run: |
+          pwd
+          ls -la
+          npm run lint
+        working-directory: packages/backend
 
       - name: Build app
-        run: npm --workspace packages/app run build
+        run: npm run build
+        working-directory: packages/app
 
       - name: Build backend
-        run: npm --workspace packages/backend run build
+        run: npm run build
+        working-directory: packages/backend
 
       - name: Test backend
-        run: npm --workspace packages/backend run test -- --ci --reporters=default --reporters=jest-junit
+        run: npm run test -- --ci --reporters=default --reporters=jest-junit
+        working-directory: packages/backend
