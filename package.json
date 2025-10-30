@@ -10,7 +10,7 @@
     "dev:backend": "npm -w @my-saas/backend run start:dev",
     "build": "npm --prefix packages/app run build && npm --prefix packages/backend run build",
     "build:all": "npm --prefix packages/app run build && npm --prefix packages/backend run build",
-    "lint": "npm --prefix packages/app run lint && npm --prefix packages/backend run lint",
+    "lint": "(cd packages/app && npm run lint) && (cd packages/backend && npm run lint)",
     "format": "prettier -w .",
     "format:check": "prettier -c .",
     "test": "npm --prefix packages/backend run test",
