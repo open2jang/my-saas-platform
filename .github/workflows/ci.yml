@@ -2,12 +2,23 @@ name: CI
 
 on:
   push:
-    branches: [main, develop, feature/**]
+    branches: [develop, main, 'feature/**']
+    paths:
+      - 'packages/**'
+      - '!**/*.md'
   pull_request:
-    branches: [main, develop]
+    branches: [develop, main]
+    paths:
+      - 'packages/**'
+      - '!**/*.md'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-and-test:
+  quick-check:
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,23 +28,49 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
 
       - name: Install
         run: npm install
 
       - name: Lint app
-        run: |
-          pwd
-          ls -la
-          npm run lint
+        run: npm run lint
+        working-directory: packages/app
+
+      - name: Type-check app
+        run: npx tsc -p tsconfig.json --noEmit
         working-directory: packages/app
 
       - name: Lint backend
-        run: |
-          pwd
-          ls -la
-          npm run lint
+        run: npm run lint
+        working-directory: packages/backend
+
+      - name: Type-check backend
+        run: npx tsc -p tsconfig.json --noEmit
+        working-directory: packages/backend
+
+  full-ci:
+    if: ${{ github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/develop') || startsWith(github.ref, 'refs/heads/main') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm install
+
+      - name: Lint app
+        run: npm run lint
+        working-directory: packages/app
+
+      - name: Lint backend
+        run: npm run lint
         working-directory: packages/backend
 
       - name: Build app
