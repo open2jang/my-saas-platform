@@ -14,13 +14,24 @@
     "format": "prettier -w .",
     "format:check": "prettier -c .",
     "test": "npm --prefix packages/backend run test",
-    "ci": "npm run lint:all && npm run build && npm run test"
+    "ci": "npm run lint:all && npm run build && npm run test",
+    "prepare": "husky"
   },
   "devDependencies": {
     "concurrently": "^9",
     "eslint": "^9",
     "eslint-config-prettier": "^10",
     "eslint-plugin-prettier": "^5",
-    "prettier": "^3"
+    "prettier": "^3",
+    "husky": "^9",
+    "lint-staged": "^15"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix --max-warnings=0"
+    ],
+    "**/*.{json,md,css}": [
+      "prettier -w"
+    ]
   }
 }
