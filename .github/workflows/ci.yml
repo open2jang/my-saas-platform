@@ -23,11 +23,17 @@ jobs:
         run: npm ci
 
       - name: Lint app
-        run: npm run lint
+        run: |
+          pwd
+          ls -la
+          npm run lint
         working-directory: packages/app
 
       - name: Lint backend
-        run: npm run lint
+        run: |
+          pwd
+          ls -la
+          npm run lint
         working-directory: packages/backend
 
       - name: Build app
